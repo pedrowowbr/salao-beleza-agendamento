@@ -63,19 +63,37 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Rode as migrações do banco de dados
+### 4. Configure as variáveis de ambiente
+
+Copie o arquivo de exemplo:
+
+```bash
+# Windows
+copy .env.example .env
+
+# Linux/macOS
+cp .env.example .env
+```
+
+Abra o `.env` e preencha o `SECRET_KEY` com uma chave própria. Você pode gerar uma com:
+
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+### 5. Rode as migrações do banco de dados
 
 ```bash
 python manage.py migrate
 ```
 
-### 5. Crie o usuário administrador (Staff)
+### 6. Crie o usuário administrador (Staff)
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 6. Execute o servidor local
+### 7. Execute o servidor local
 
 ```bash
 python manage.py runserver
