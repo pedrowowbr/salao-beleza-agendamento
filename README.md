@@ -8,7 +8,7 @@ Sistema web desenvolvido em Django para controle de agendamentos de um salão de
 
 * **Python 3.12**
 * **Django 6.0.6**
-* **python-dotenv 1.2.2** (gerenciamento de variáveis de ambiente)
+* **python-dotenv 1.2.2**
 * **SQLite**
 * **HTML5 / CSS3**
 * **Bootstrap 5**
