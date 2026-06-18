@@ -38,8 +38,8 @@ Siga os passos abaixo para configurar e executar o projeto localmente:
 ### 1. Clonar o repositório e acessar a pasta
 
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
-cd <NOME_DA_PASTA_DO_PROJETO>
+git clone https://github.com/pedrowowbr/salao-beleza-agendamento
+cd salao_beleza
 ```
 
 ### 2. Crie e ative o ambiente virtual
