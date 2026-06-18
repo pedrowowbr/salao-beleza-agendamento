@@ -7,11 +7,14 @@ Sistema web desenvolvido em Django para controle de agendamentos de um salão de
 ## 🛠️ Tecnologias Utilizadas
 
 * **Python 3.12**
-* **Django 6**
+* **Django 6.0.6**
+* **python-dotenv 1.2.2** (gerenciamento de variáveis de ambiente)
 * **SQLite**
 * **HTML5 / CSS3**
 * **Bootstrap 5**
 * **Django Templates**
+
+> As demais dependências (`asgiref`, `sqlparse`, `tzdata`) são instaladas automaticamente junto com o Django.
 
 ---
 
