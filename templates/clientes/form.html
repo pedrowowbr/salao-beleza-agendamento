@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="section-title mb-1">
+                    Cadastro de Cliente
+                </h2>
+                <p class="text-muted mb-4">
+                    Cadastre ou atualize informações dos clientes.
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <hr>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-success">
+                            Salvar Cliente
+                        </button>
+                        <a href="{% url 'cliente-list' %}" class="btn btn-outline-secondary">
+                            Voltar
+                        </a>
+                        {% if object.pk %}
+                        <button type="submit" form="form-delete-cliente" class="btn btn-danger"
+                                onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
+                            Excluir
+                        </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if object.pk %}
+<form method="post" action="{% url 'cliente-delete' object.pk %}" id="form-delete-cliente" class="d-none">
+    {% csrf_token %}
+</form>
+{% endif %}
+{% endblock %}

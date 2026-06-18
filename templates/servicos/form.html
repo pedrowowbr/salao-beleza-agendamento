@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3">
+                <h3 class="mb-0">
+                    Cadastro de Serviço
+                </h3>
+                <small class="text-muted">
+                    Cadastre ou atualize os serviços oferecidos pelo salão.
+                </small>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Nome do Serviço
+                        </label>
+                        {{ form.nome }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Descrição
+                        </label>
+                        {{ form.descricao }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Preço (R$)
+                                </label>
+                                {{ form.preco }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Duração (minutos)
+                                </label>
+                                {{ form.duracao_minutos }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-success">
+                            Salvar Serviço
+                        </button>
+                        <a href="{% url 'servico-list' %}" class="btn btn-outline-secondary">
+                            Voltar
+                        </a>
+                        {% if object.pk %}
+                        <button type="submit" form="form-delete-servico" class="btn btn-danger"
+                                onclick="return confirm('Tem certeza que deseja excluir este serviço?');">
+                            Excluir
+                        </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if object.pk %}
+<form method="post" action="{% url 'servico-delete' object.pk %}" id="form-delete-servico" class="d-none">
+    {% csrf_token %}
+</form>
+{% endif %}
+{% endblock %}

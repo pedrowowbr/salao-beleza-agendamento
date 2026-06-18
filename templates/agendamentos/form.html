@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-4">
+    <h1 class="section-title">
+        {% if object %}
+        Editar Agendamento
+        {% else %}
+        Novo Agendamento
+        {% endif %}
+    </h1>
+    <p class="text-muted">
+        {% if object %}
+        Atualize os dados do atendimento e adicione mais serviços.
+        {% else %}
+        Cadastre um novo horário para atendimento.
+        {% endif %}
+    </p>
+</div>
+<div class="card">
+    <div class="card-body p-4">
+        {% if agendamento_existente %}
+        <div class="alert alert-warning d-flex justify-content-between align-items-center gap-3">
+            <div>
+                Você já possui agendamento em
+                {{ agendamento_existente.data_hora|date:"d/m/Y H:i" }}.
+                Se quiser, pode editar este agendamento ou fechar este aviso e continuar criando outro.
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                {% if agendamento_existente_pode_editar %}
+                <a href="{{ agendamento_existente_url }}" class="btn btn-dark btn-sm">
+                    Editar agendamento
+                </a>
+                {% endif %}
+                <button type="submit" name="confirmar_mesmo_assim" value="1" form="form-agendamento"
+                    class="btn btn-success btn-sm">
+                    Salvar mesmo assim
+                </button>
+            </div>
+        </div>
+        {% endif %}
+        <form method="post" id="form-agendamento">
+            {% csrf_token %}
+            <div class="row">
+                {% if form.cliente %}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">
+                        Cliente
+                    </label>
+                    {{ form.cliente }}
+                </div>
+                {% endif %}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">
+                        Data e Hora
+                    </label>
+                    {{ form.data_hora }}
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-semibold">
+                    Observações
+                </label>
+                {{ form.observacao }}
+            </div>
+            <div class="card bg-light border-0">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">
+                        Serviços Selecionados
+                    </h6>
+                    {% for checkbox in form.servicos %}
+                    <div class="form-check mb-2">
+                        {{ checkbox.tag }}
+                        <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                            {{ checkbox.choice_label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex gap-2 flex-wrap">
+                <button type="submit" class="btn btn-salao">
+                    Salvar Agendamento
+                </button>
+                <a href="{% url 'agendamento-list' %}" class="btn btn-outline-secondary">
+                    Voltar
+                </a>
+                {% if object.pk and user.is_staff %}
+                <button type="submit" form="form-delete-agendamento" class="btn btn-danger"
+                        onclick="return confirm('Tem certeza que deseja excluir este agendamento?');">
+                    Excluir
+                </button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% if object.pk and user.is_staff %}
+<form method="post" action="{% url 'agendamento-delete' object.pk %}" id="form-delete-agendamento" class="d-none">
+    {% csrf_token %}
+</form>
+{% endif %}
+{% endblock %}

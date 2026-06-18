@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+        <div class="card p-4">
+            <h1 class="section-title mb-3">Entrar</h1>
+            <p class="text-muted mb-4">
+                Acesse sua área para ver seus agendamentos.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">
+                        Usuário
+                    </label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">
+                        Senha
+                    </label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+
+                <button type="submit" class="btn btn-salao w-100">
+                    Entrar
+                </button>
+            </form>
+
+            <div class="mt-3 text-center">
+                <a href="{% url 'accounts:register' %}">
+                    Não tem conta? Cadastre-se
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

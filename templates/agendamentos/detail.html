@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow">
+
+            <div class="mb-4">
+
+                <h1 class="section-title">
+                    Detalhes do Agendamento
+                </h1>
+
+                <p class="text-muted">
+                    Informações completas do atendimento.
+                </p>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-info">
+                    <strong>Dica:</strong>
+
+                    Sempre que possível, concentre os serviços
+                    do cliente em uma única visita para otimizar
+                    o atendimento e a experiência no salão.
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-md-6">
+
+                        <strong>Cliente</strong>
+
+                        <p class="mb-0">
+                            {{ agendamento.cliente.nome }}
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <strong>Data e Hora</strong>
+
+                        <p class="mb-0">
+                            {{ agendamento.data_hora|date:"d/m/Y H:i" }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Status</strong>
+                        {% if user.is_staff %}
+                        <form method="post" action="{% url 'agendamento-status' agendamento.id %}" class="mt-2 d-flex align-items-center gap-2">
+                            {% csrf_token %}
+                            <select name="status" class="form-select" onchange="this.form.submit()">
+                                <option value="PENDENTE" {% if agendamento.status == 'PENDENTE' %}selected{% endif %}>
+                                    Pendente
+                                </option>
+                                <option value="CONFIRMADO" {% if agendamento.status == 'CONFIRMADO' %}selected{% endif %}>
+                                    Confirmado
+                                </option>
+                                <option value="EM_ANDAMENTO" {% if agendamento.status == 'EM_ANDAMENTO' %}selected{% endif %}>
+                                    Em andamento
+                                </option>
+                                <option value="CONCLUIDO" {% if agendamento.status == 'CONCLUIDO' %}selected{% endif %}>
+                                    Concluído
+                                </option>
+                                <option value="CANCELADO" {% if agendamento.status == 'CANCELADO' %}selected{% endif %}>
+                                    Cancelado
+                                </option>
+                            </select>
+                        </form>
+                        {% else %}
+                        <p class="mb-0 mt-2">
+                            {% if agendamento.status == 'CONFIRMADO' %}
+                            <span class="badge bg-success">
+                                Confirmado
+                            </span>
+                            {% elif agendamento.status == 'CANCELADO' %}
+                            <span class="badge bg-danger">
+                                Cancelado
+                            </span>
+                            {% elif agendamento.status == 'EM_ANDAMENTO' %}
+                            <span class="badge bg-info text-dark">
+                                Em andamento
+                            </span>
+                            {% elif agendamento.status == 'CONCLUIDO' %}
+                            <span class="badge bg-primary">
+                                Concluído
+                            </span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark">
+                                Pendente
+                            </span>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <strong>Observação</strong>
+
+                <div class="border rounded p-3 bg-light mb-4">
+                    {{ agendamento.observacao|default:"Nenhuma observação informada." }}
+                </div>
+
+                <strong>Serviços Contratados</strong>
+
+                <div class="mt-2">
+                    {% for item in agendamento.itens_servico.all %}
+                    <span class="badge bg-primary me-2 mb-2 p-2">
+                        {{ item.servico.nome }}
+                    </span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="card-footer bg-white d-flex flex-wrap gap-2">
+
+                <a href="{% url 'agendamento-list' %}" class="btn btn-secondary">
+                    Voltar
+                </a>
+
+                {% if user.is_staff or agendamento.cliente.user_id == user.id %}
+                <a href="{% url 'agendamento-update' agendamento.id %}" class="btn btn-warning">
+                    Editar
+                </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Agendamentos</h2>
+    <a href="{% url 'agendamento-create' %}" class="btn btn-salao">
+        Novo Agendamento
+    </a>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label>Data Inicial</label>
+                <input type="date" name="data_inicio" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label>Data Final</label>
+                <input type="date" name="data_fim" class="form-control">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button class="btn btn-success">
+                    Pesquisar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card shadow">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Serviços</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th width="220">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agendamento in agendamentos %}
+                <tr>
+                    <td>{{ agendamento.cliente.nome }}</td>
+                    <td>
+                        {% for item in agendamento.itens_servico.all %}
+                        <span class="badge badge-servico me-1 mb-1">
+                            {{ item.servico.nome }}
+                        </span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ agendamento.data_hora|date:"d/m/Y H:i" }}
+                    </td>
+                    <td>
+                        {% if user.is_staff %}
+                        <form method="post" action="{% url 'agendamento-status' agendamento.id %}" class="d-flex align-items-center gap-2">
+                            {% csrf_token %}
+                            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                <option value="PENDENTE" {% if agendamento.status == 'PENDENTE' %}selected{% endif %}>
+                                    Pendente
+                                </option>
+                                <option value="CONFIRMADO" {% if agendamento.status == 'CONFIRMADO' %}selected{% endif %}>
+                                    Confirmado
+                                </option>
+                                <option value="EM_ANDAMENTO" {% if agendamento.status == 'EM_ANDAMENTO' %}selected{% endif %}>
+                                    Em andamento
+                                </option>
+                                <option value="CONCLUIDO" {% if agendamento.status == 'CONCLUIDO' %}selected{% endif %}>
+                                    Concluído
+                                </option>
+                                <option value="CANCELADO" {% if agendamento.status == 'CANCELADO' %}selected{% endif %}>
+                                    Cancelado
+                                </option>
+                            </select>
+                        </form>
+                        {% else %}
+                            {% if agendamento.status == 'CONFIRMADO' %}
+                            <span class="badge bg-success">
+                                Confirmado
+                            </span>
+                            {% elif agendamento.status == 'CANCELADO' %}
+                            <span class="badge bg-danger">
+                                Cancelado
+                            </span>
+                            {% elif agendamento.status == 'EM_ANDAMENTO' %}
+                            <span class="badge bg-info text-dark">
+                                Em andamento
+                            </span>
+                            {% elif agendamento.status == 'CONCLUIDO' %}
+                            <span class="badge bg-primary">
+                                Concluído
+                            </span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark">
+                                Pendente
+                            </span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'agendamento-detail' agendamento.id %}" class="btn btn-info btn-sm">
+                            Detalhes
+                        </a>
+                        {% if user.is_staff or agendamento.cliente.user_id == user.id %}
+                        <a href="{% url 'agendamento-update' agendamento.id %}" class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

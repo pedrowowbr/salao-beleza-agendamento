@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card p-4">
+            <h1 class="section-title mb-3">Criar conta</h1>
+            <p class="text-muted mb-4">
+                Faça seu cadastro para agendar serviços online.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">
+                            Usuário
+                        </label>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">
+                            E-mail
+                        </label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.nome.id_for_label }}" class="form-label">
+                            Nome
+                        </label>
+                        {{ form.nome }}
+                        {{ form.nome.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.telefone.id_for_label }}" class="form-label">
+                            Telefone
+                        </label>
+                        {{ form.telefone }}
+                        {{ form.telefone.errors }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="{{ form.endereco.id_for_label }}" class="form-label">
+                            Endereço
+                        </label>
+                        {{ form.endereco }}
+                        {{ form.endereco.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.password1.id_for_label }}" class="form-label">
+                            Senha
+                        </label>
+                        {{ form.password1 }}
+                        {{ form.password1.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.password2.id_for_label }}" class="form-label">
+                            Confirmar senha
+                        </label>
+                        {{ form.password2 }}
+                        {{ form.password2.errors }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-salao">
+                    Criar conta
+                </button>
+
+                <a href="{% url 'accounts:login' %}" class="btn btn-secondary ms-2">
+                    Já tenho conta
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

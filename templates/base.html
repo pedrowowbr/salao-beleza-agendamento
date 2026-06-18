@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Cabeleleila Leila</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #F6F7FB;
+            color: #2D3436;
+            font-family: 'Segoe UI', sans-serif;
+            cursor: default;
+            user-select: none;
+}
+
+        /* HEADER */
+        .topbar {
+            background: linear-gradient(135deg, #6C5CE7, #7D6BFF);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
+        }
+
+        .logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .logo:hover {
+            color: #fff;
+        }
+
+        .menu-link {
+            color: rgba(255, 255, 255, .9);
+            text-decoration: none;
+            margin-left: 25px;
+            transition: .2s;
+        }
+
+        .menu-link:hover {
+            color: #fff;
+        }
+
+        /* CONTAINER */
+        .content-card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .05);
+        }
+
+        /* TITULOS */
+        .section-title {
+            color: #5649C0;
+            font-weight: 700;
+        }
+
+        /* CARDS */
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, .05);
+        }
+
+        .dashboard-card {
+            transition: .25s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .dashboard-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #5649C0;
+        }
+
+        /* BOTÕES */
+        .btn-salao {
+            background: #6C5CE7;
+            border: none;
+            color: white;
+        }
+
+        .btn-salao:hover {
+            background: #5649C0;
+            color: white;
+        }
+
+        /* TABELAS */
+        .table thead {
+            background: #6C5CE7;
+            color: white;
+        }
+
+        /* BADGES */
+        .badge-servico {
+            background: #A29BFE;
+            color: white;
+        }
+
+        /* HOME */
+        .hero-box {
+            padding: 20px 0;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2D3436;
+        }
+
+        .hero-subtitle {
+            color: #636E72;
+            font-size: 1.1rem;
+            max-width: 700px;
+        }
+
+        .highlight-card {
+            background: #F8F7FF;
+            border-left: 5px solid #6C5CE7;
+            border-radius: 14px;
+        }
+        /* CURSOR */
+        input,
+        textarea {
+            cursor: text;
+            user-select: text;
+        }
+
+        a,
+        button,
+        .btn {
+            cursor: pointer;
+        }
+        
+        /* FORMULÁRIOS */
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+            padding: 10px 12px;
+
+            border-radius: 10px !important;
+            border: 1px solid #DADCE5 !important;
+
+            transition: .2s;
+
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            box-shadow: 0 0 0 .15rem rgba(108, 92, 231, .20) !important;
+            border-color: #6C5CE7 !important;
+            outline: none;
+
+        }
+
+        textarea {
+
+            min-height: 120px;
+
+        }
+
+        /* CARDS */
+
+        .card {
+
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .05);
+
+        }
+
+        /* LABELS */
+
+        label {
+
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2D3436;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* BOTÕES DOS FORMULÁRIOS */
+
+        .btn-success {
+            background: #6C5CE7;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background: #5649C0;
+        }
+
+        .btn-secondary {
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center py-3">
+
+                <a href="/" class="logo">
+                    Cabeleleila Leila
+                </a>
+
+                <nav>
+                    <a class="menu-link" href="/">
+                        Início
+                    </a>
+
+                    {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                    <a class="menu-link" href="/dashboard/">
+                        Dashboard
+                    </a>
+                    <a class="menu-link" href="/clientes/">
+                        Clientes
+                    </a>
+                    <a class="menu-link" href="/servicos/">
+                        Serviços
+                    </a>
+                    <a class="menu-link" href="/agendamentos/">
+                        Agendamentos
+                    </a>
+                    {% else %}
+                    <a class="menu-link" href="/agendamentos/">
+                        Meus agendamentos
+                    </a>
+                    <a class="menu-link" href="/agendamentos/novo/">
+                        Novo agendamento
+                    </a>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="menu-link btn btn-link p-0 border-0 text-decoration-none">
+                            Sair
+                        </button>
+                    </form>
+                    {% else %}
+                    <a class="menu-link" href="{% url 'accounts:login' %}">
+                        Entrar
+                    </a>
+                    <a class="menu-link" href="{% url 'accounts:register' %}">
+                        Criar conta
+                    </a>
+                    {% endif %}
+                </nav>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <div class="container mt-4">
+
+        {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="alert alert-warning alert-dismissible fade show">
+
+            {{ message }}
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+        <div class="content-card">
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

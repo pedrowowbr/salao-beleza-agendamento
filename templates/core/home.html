@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row align-items-center">
+
+    <div class="col-lg-8">
+
+        <h1 class="hero-title mb-3">
+
+            Sistema de Agendamento
+
+        </h1>
+
+        <p class="hero-subtitle">
+
+            Gerencie clientes, serviços e horários do salão
+            de forma simples e organizada.
+
+        </p>
+
+        <hr class="my-4">
+
+        <p class="fs-5">
+
+            Este sistema foi desenvolvido para facilitar o
+            controle dos agendamentos da Cabeleleila Leila,
+            permitindo o cadastro de clientes, gerenciamento
+            de serviços e acompanhamento dos horários.
+
+        </p>
+
+        <div class="mt-4">
+
+            {% if user.is_authenticated %}
+
+            {% if user.is_staff %}
+
+            <a href="/agendamentos/novo/" class="btn btn-salao btn-lg me-2">
+                Novo Agendamento
+            </a>
+
+            <a href="/dashboard/" class="btn btn-outline-secondary btn-lg">
+                Dashboard
+            </a>
+
+            {% else %}
+
+            <a href="/agendamentos/" class="btn btn-salao btn-lg me-2">
+                Meus agendamentos
+            </a>
+
+            <a href="/agendamentos/novo/" class="btn btn-outline-secondary btn-lg">
+                Novo Agendamento
+            </a>
+
+            {% endif %}
+
+            {% else %}
+
+            <a href="{% url 'accounts:login' %}" class="btn btn-salao btn-lg me-2">
+                Entrar
+            </a>
+
+            <a href="{% url 'accounts:register' %}" class="btn btn-outline-secondary btn-lg">
+                Criar conta
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5 class="mb-3">
+
+                    Informações do Sistema
+
+                </h5>
+
+                <hr>
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Gestão de Clientes
+
+                    </small>
+
+                    <div class="fw-semibold">
+
+                        Cadastro completo de clientes
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Serviços
+
+                    </small>
+
+                    <div class="fw-semibold">
+
+                        Controle dos serviços oferecidos
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <small class="text-muted">
+
+                        Agendamentos
+
+                    </small>
+
+                    <div class="fw-semibold">
+
+                        Organização dos horários
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-5">
+
+    {% if user.is_staff %}
+
+    <div class="col-md-4">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <h5>
+
+                    Agendamentos
+
+                </h5>
+
+                <p class="text-muted mb-0">
+
+                    Controle e acompanhamento dos horários
+                    dos clientes.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <h5>
+
+                    Serviços
+
+                </h5>
+
+                <p class="text-muted mb-0">
+
+                    Cadastro de cortes, tratamentos e
+                    demais serviços do salão.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <h5>
+
+                    Clientes
+
+                </h5>
+
+                <p class="text-muted mb-0">
+
+                    Gerenciamento dos clientes e seus
+                    dados cadastrais.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="col-md-6 mb-3 mb-md-0">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <h5>
+
+                    Meus agendamentos
+
+                </h5>
+
+                <p class="text-muted mb-0">
+
+                    Acompanhe seus horários e veja o histórico
+                    dos seus serviços.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <h5>
+
+                    Agendar online
+
+                </h5>
+
+                <p class="text-muted mb-0">
+
+                    Faça novos agendamentos sem precisar ligar para o salão.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

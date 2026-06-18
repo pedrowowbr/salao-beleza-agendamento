@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="mb-5">
+
+    <h1 class="section-title">
+
+        Dashboard Gerencial
+
+    </h1>
+
+    <p class="text-muted">
+
+        Acompanhe os principais indicadores do salão.
+
+    </p>
+
+</div>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+                    Clientes
+                </small>
+
+                <div class="dashboard-number">
+                    {{ total_clientes }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+                    Serviços
+                </small>
+
+                <div class="dashboard-number">
+                    {{ total_servicos }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+                    Agendamentos
+                </small>
+
+                <div class="dashboard-number">
+                    {{ total_agendamentos }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+                    Semana Atual
+                </small>
+
+                <div class="dashboard-number">
+                    {{ agendamentos_semana }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-6">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <h5 class="section-title mb-4">
+
+                    Situação dos Agendamentos
+
+                </h5>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span>Confirmados</span>
+
+                    <span class="badge bg-success">
+
+                        {{ agendamentos_confirmados }}
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <span>Concluídos</span>
+
+                    <span class="badge bg-primary">
+
+                        {{ agendamentos_concluidos }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <h5 class="section-title mb-4">
+
+                    Serviço Mais Solicitado
+
+                </h5>
+
+                {% if servico_mais_solicitado %}
+
+                <h3 class="fw-bold">
+
+                    {{ servico_mais_solicitado.servico__nome }}
+
+                </h3>
+
+                <p class="text-muted">
+
+                    {{ servico_mais_solicitado.total }}
+                    agendamentos realizados.
+
+                </p>
+
+                {% else %}
+
+                <p class="text-muted">
+
+                    Nenhum serviço encontrado.
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card mt-4">
+
+    <div class="card-body">
+
+        <h5 class="section-title mb-3">
+
+            Acesso rápido
+
+        </h5>
+
+        <a href="/clientes/" class="btn btn-salao me-2">
+
+            Clientes
+
+        </a>
+
+        <a href="/servicos/" class="btn btn-salao me-2">
+
+            Serviços
+
+        </a>
+
+        <a href="/agendamentos/" class="btn btn-salao">
+
+            Agendamentos
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
